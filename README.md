@@ -349,5 +349,3 @@ Email: akshayam16032005@gmail.com
 PennyWise represents a paradigm shift in personal finance, leveraging behavioral psychology and automation to bridge the investment gap for millions. By transforming passive spare change into active wealth building, we're not just creating a platform—we're cultivating a movement toward financial empowerment and independence.
 
 ⭐ If you find this project useful, please consider giving it a star on GitHub!
-
-Yeh response AI generated hai, sirf reference ke liye.
