@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "email": "anu123@gmail.com",
+    "password": "anu123",
+    "name": "Anu",
+    "phone": "",
+    "created_at": "2026-02-09T15:14:23.928459",
+    "round_up_level": 10,
+    "investment_threshold": 200,
+    "portfolio": {
+      "gold": 40,
+      "etf": 30,
+      "index": 30
+    },
+    "balance": 0,
+    "total_invested": 0
+  }
+]

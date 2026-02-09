@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennyWise | Invest Your Spare Change</title>
+    <style>
+        /* COMPLETE CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --secondary: #10B981;
+            --round-up: #F59E0B;
+            --background: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #1F2937;
+            --text-light: #6B7280;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .logo::before {
+            content: "💰";
+            font-size: 32px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Auth Section */
+        #authSection {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .auth-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .auth-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        .logout-btn {
+            background: #EF4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* Login Modal */
+        #loginModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6B7280;
+        }
+        
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 48px;
+            color: var(--text);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(79, 70, 229, 0.2);
+            z-index: -1;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .stat-card {
+            background: var(--background);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Phone Mockup */
+        .phone-mockup {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+        
+        .phone-screen {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            height: 500px;
+            overflow: hidden;
+        }
+        
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--background);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .round-up-badge {
+            background: var(--round-up);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .total-saving {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        /* How it works */
+        .how-it-works {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 60px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .how-it-works h2 {
+            font-size: 36px;
+            color: var(--text);
+            margin-bottom: 40px;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .step {
+            padding: 30px;
+            background: var(--background);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+        
+        .step:hover {
+            transform: translateY(-10px);
+            background: white;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 0 auto 20px;
+        }
+        
+        .step h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        /* Demo Preview */
+        .demo-preview {
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        /* Form Styles */
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        
+        .form-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .form-link {
+            text-align: center;
+            color: #6B7280;
+        }
+        
+        .form-link a {
+            color: var(--primary);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .stats-container, .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .stats-container, .steps {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .phone-mockup {
+                transform: scale(0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="hideLoginModal()">×</button>
+            
+            <h2 style="color:#4F46E5; text-align:center; margin-bottom:30px;">🔐 Login to PennyWise</h2>
+            
+            <div id="loginForm">
+                <input type="email" id="email" placeholder="Email address" class="form-input">
+                <input type="password" id="password" placeholder="Password" class="form-input">
+                
+                <button onclick="handleLogin()" class="form-btn">Sign In</button>
+                
+                <p class="form-link">
+                    Don't have an account? 
+                    <a href="#" onclick="showRegisterForm()">Sign up</a>
+                </p>
+            </div>
+            
+            <div id="registerForm" style="display:none;">
+                <input type="text" id="name" placeholder="Full name" class="form-input">
+                <input type="email" id="regEmail" placeholder="Email address" class="form-input">
+                <input type="password" id="regPassword" placeholder="Password" class="form-input">
+                
+                <button onclick="handleRegister()" class="form-btn" style="background:#10B981;">Create Account</button>
+                
+                <p class="form-link">
+                    Already have an account? 
+                    <a href="#" onclick="showLoginForm()">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav>
+            <div class="logo">PennyWise</div>
+            <div class="nav-links" id="navLinks">
+                <!-- Navigation will be updated by JavaScript -->
+            </div>
+            <div id="authSection">
+                <!-- Auth buttons will be updated by JavaScript -->
+            </div>
+        </nav>
+
+        <div class="hero">
+            <div>
+                <h1>Turn Your <span class="highlight">Spare Change</span> Into Wealth</h1>
+                <p class="subtitle">PennyWise automatically rounds up your daily transactions & invests the change. Zero effort, real growth.</p>
+                
+                <div style="display: flex; gap: 15px; margin-bottom: 40px;">
+                    <button onclick="startDemo()" class="btn">🚀 Start Free Demo</button>
+                    <button onclick="showVideo()" class="btn btn-secondary">▶️ Watch Demo</button>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">₹15-25</div>
+                        <div class="stat-label">Daily spare change per user</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">₹5,475</div>
+                        <div class="stat-label">Annual investment potential</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">94%</div>
+                        <div class="stat-label">User retention rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">250M+</div>
+                        <div class="stat-label">Indian digital payment users</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="transaction-list">
+                            <div class="transaction-item">
+                                <span style="font-weight: bold;">Swiggy</span>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: bold;">₹347</div>
+                                    <div class="round-up-badge">+₹3</div>
+                                </div>
+                            </div>
+                            <div class="transaction-item">
+                                <span style="font-weight: bold;">Uber</span>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: bold;">₹187</div>
+                                    <div class="round-up-badge">+₹3</div>
+                                </div>
+                            </div>
+                            <div class="transaction-item">
+                                <span style="font-weight: bold;">Amazon</span>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: bold;">₹1,249</div>
+                                    <div class="round-up-badge">+₹1</div>
+                                </div>
+                            </div>
+                            <div class="total-saving">
+                                <span>Today's Savings:</span>
+                                <span class="amount">₹18</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="how-it-works">
+            <h2>How PennyWise Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div style="font-size: 40px; margin-bottom: 20px;">🔗</div>
+                    <h3>Connect</h3>
+                    <p>Securely link your UPI or bank account</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div style="font-size: 40px; margin-bottom: 20px;">🔄</div>
+                    <h3>Round Up</h3>
+                    <p>We round up transactions to nearest ₹10</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div style="font-size: 40px; margin-bottom: 20px;">📈</div>
+                    <h3>Auto-Invest</h3>
+                    <p>Spare change invested in Gold/ETFs automatically</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div style="font-size: 40px; margin-bottom: 20px;">💰</div>
+                    <h3>Grow Wealth</h3>
+                    <p>Watch your investments grow effortlessly</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-preview">
+            <h2 style="color: white; margin-bottom: 30px;">Live Demo Preview</h2>
+            <div class="demo-grid">
+                <div>
+                    <h3 style="margin-bottom: 15px;">Your Transaction:</h3>
+                    <div style="font-size: 28px; margin-bottom: 10px;">Swiggy: ₹<span id="demoAmount">347</span></div>
+                    <div style="color: var(--round-up); font-size: 24px; font-weight: bold; margin-bottom: 20px;">
+                        Round-up: +₹<span id="demoRoundUp">3</span>
+                    </div>
+                    <button onclick="simulateDemoTransaction()" class="btn" style="background: white; color: var(--primary);">
+                        Simulate Transaction
+                    </button>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 15px;">Your Portfolio:</h3>
+                    <div style="font-size: 48px; font-weight: bold; margin-bottom: 10px;">₹<span id="demoPortfolio">427</span></div>
+                    <div style="color: var(--secondary); margin-bottom: 20px;">Total spare change collected</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                        <div>Next auto-invest at: ₹200</div>
+                        <div>Current: ₹<span id="demoCurrent">427</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURATION ==========
+        const API_BASE_URL = 'http://localhost:5000';
+        let currentUser = null;
+        let demoPortfolio = 427;
+        
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+        });
+        
+        // ========== AUTH FUNCTIONS ==========
+        async function checkAuthStatus() {
+            try {
+                const user = JSON.parse(localStorage.getItem('pennywise_user'));
+                
+                // Try to check with backend first
+                const response = await fetch(`${API_BASE_URL}/check-auth`);
+                const data = await response.json();
+                
+                if (data.authenticated && user) {
+                    currentUser = user;
+                    updateUIForLoggedInUser();
+                } else {
+                    // Fallback to localStorage
+                    if (user) {
+                        currentUser = user;
+                        updateUIForLoggedInUser();
+                    } else {
+                        updateUIForGuest();
+                    }
+                }
+            } catch (error) {
+                console.log('Offline mode - checking localStorage');
+                const user = JSON.parse(localStorage.getItem('pennywise_user'));
+                if (user) {
+                    currentUser = user;
+                    updateUIForLoggedInUser();
+                } else {
+                    updateUIForGuest();
+                }
+            }
+        }
+        
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+            showLoginForm();
+        }
+        
+        function hideLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+        
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+        
+        function showRegisterForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+        
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                showNotification('Please enter email and password', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Save user
+                    localStorage.setItem('pennywise_user', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    
+                    // Update UI
+                    updateUIForLoggedInUser();
+                    hideLoginModal();
+                    
+                    // Show welcome
+                    showNotification(`Welcome back, ${data.user.name}! 🎉`, 'success');
+                } else {
+                    showNotification(data.error || 'Login failed', 'error');
+                }
+            } catch (error) {
+                // Offline demo mode
+                console.log('Using demo mode:', error.message);
+                const demoUser = {
+                    id: 1,
+                    email: email,
+                    name: email.split('@')[0] || 'Demo User',
+                    balance: 427,
+                    total_invested: 2850,
+                    portfolio: { gold: 40, etf: 30, index: 30 }
+                };
+                
+                localStorage.setItem('pennywise_user', JSON.stringify(demoUser));
+                currentUser = demoUser;
+                updateUIForLoggedInUser();
+                hideLoginModal();
+                showNotification('Demo mode: Logged in successfully!', 'success');
+            }
+        }
+        
+        async function handleRegister() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            if (!name || !email || !password) {
+                showNotification('Please fill all fields', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('pennywise_user', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    updateUIForLoggedInUser();
+                    hideLoginModal();
+                    showNotification(`Welcome to PennyWise, ${data.user.name}! 🎉`, 'success');
+                } else {
+                    showNotification(data.error || 'Registration failed', 'error');
+                }
+            } catch (error) {
+                // Offline demo mode
+                const demoUser = {
+                    id: Date.now(),
+                    email: email,
+                    name: name,
+                    balance: 0,
+                    total_invested: 0,
+                    portfolio: { gold: 40, etf: 30, index: 30 }
+                };
+                
+                localStorage.setItem('pennywise_user', JSON.stringify(demoUser));
+                currentUser = demoUser;
+                updateUIForLoggedInUser();
+                hideLoginModal();
+                showNotification('Demo mode: Account created!', 'success');
+            }
+        }
+        
+        async function handleLogout() {
+            try {
+                await fetch(`${API_BASE_URL}/logout`, { method: 'POST' });
+            } catch (error) {
+                console.log('Offline logout');
+            }
+            
+            localStorage.removeItem('pennywise_user');
+            currentUser = null;
+            updateUIForGuest();
+            showNotification('Logged out successfully', 'info');
+        }
+        
+        // ========== UI UPDATES ==========
+        function updateUIForLoggedInUser() {
+            const authSection = document.getElementById('authSection');
+            const navLinks = document.getElementById('navLinks');
+            
+            // Update auth section
+            authSection.innerHTML = `
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
+                    <div>
+                        <div style="font-weight:bold; font-size:14px;">${currentUser.name}</div>
+                        <div style="font-size:12px; color:#6B7280;">₹${currentUser.balance}</div>
+                    </div>
+                    <button onclick="handleLogout()" class="logout-btn">Logout</button>
+                </div>
+            `;
+            
+            // Update navigation
+            navLinks.innerHTML = `
+                <a href="index.html" class="active">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="settings.html">Settings</a>
+                <a href="analytics.html">Analytics</a>
+            `;
+        }
+        
+        function updateUIForGuest() {
+            const authSection = document.getElementById('authSection');
+            const navLinks = document.getElementById('navLinks');
+            
+            authSection.innerHTML = `
+                <button onclick="showLoginModal()" class="auth-btn">Sign In / Sign Up</button>
+            `;
+            
+            navLinks.innerHTML = `
+                <a href="index.html" class="active">Home</a>
+                <a href="#" onclick="showLoginModal()">Dashboard</a>
+                <a href="#" onclick="showLoginModal()">Analytics</a>
+                <button onclick="showLoginModal()" class="auth-btn" style="padding:8px 16px;">Try Demo</button>
+            `;
+        }
+        
+        // ========== DEMO FUNCTIONS ==========
+        function startDemo() {
+            if (!currentUser) {
+                showLoginModal();
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
+        
+        function showVideo() {
+            alert("🎬 Demo Video\n\nFor hackathon presentation:\n1. Show user registration\n2. Demonstrate round-up transactions\n3. Show auto-invest feature\n4. Display portfolio growth\n5. Show analytics dashboard");
+        }
+        
+        // ========== TRANSACTION SIMULATION ==========
+        const demoTransactions = [
+            { merchant: "Swiggy", amount: 347 },
+            { merchant: "Uber", amount: 187 },
+            { merchant: "Amazon", amount: 1249 },
+            { merchant: "Zomato", amount: 423 }
+        ];
+        
+        function calculateRoundUp(amount, level = 10) {
+            const remainder = amount % level;
+            return remainder === 0 ? 0 : level - remainder;
+        }
+        
+        function simulateDemoTransaction() {
+            const randomTrans = demoTransactions[Math.floor(Math.random() * demoTransactions.length)];
+            const roundUp = calculateRoundUp(randomTrans.amount, 10);
+            
+            demoPortfolio += roundUp;
+            
+            document.getElementById('demoAmount').textContent = randomTrans.amount;
+            document.getElementById('demoRoundUp').textContent = roundUp;
+            document.getElementById('demoPortfolio').textContent = demoPortfolio;
+            document.getElementById('demoCurrent').textContent = demoPortfolio;
+            
+            showNotification(`Transaction: ${randomTrans.merchant} - ₹${randomTrans.amount} (+₹${roundUp})`, 'info');
+            
+            if (demoPortfolio >= 200) {
+                demoAutoInvest();
+            }
+        }
+        
+        function demoAutoInvest() {
+            showNotification(`🎉 Auto-invest! ₹${demoPortfolio} invested.`, 'success');
+            demoPortfolio = 0;
+            document.getElementById('demoPortfolio').textContent = demoPortfolio;
+            document.getElementById('demoCurrent').textContent = demoPortfolio;
+        }
+        
+        // ========== NOTIFICATION SYSTEM ==========
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 25px;
+                    background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#4F46E5'};
+                    color: white;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 10001;
+                    animation: slideIn 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                ">
+                    <span style="font-size: 20px;">
+                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
+                    </span>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // ========== ANIMATION STYLES ==========
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Auto-simulate every 8 seconds
+        setInterval(() => {
+            if (Math.random() > 0.5 && document.getElementById('demoAmount')) {
+                simulateDemoTransaction();
+            }
+        }, 8000);
+    </script>
+</body>
+</html>

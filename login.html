@@ -1,0 +1,117 @@
+<!-- Add login modal -->
+<div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000;">
+    <div style="background:white; width:400px; margin:100px auto; padding:30px; border-radius:15px;">
+        <h2>Login to PennyWise</h2>
+        <input type="email" id="loginEmail" placeholder="Email" style="width:100%; padding:10px; margin:10px 0;">
+        <input type="password" id="loginPassword" placeholder="Password" style="width:100%; padding:10px; margin:10px 0;">
+        <button onclick="login()" style="background:#4F46E5; color:white; padding:12px; width:100%; border:none; border-radius:8px;">
+            Login
+        </button>
+        <p style="text-align:center; margin-top:15px;">
+            <a href="#" onclick="showRegister()">Create account</a>
+        </p>
+    </div>
+</div>
+
+<script>
+const API_URL = 'http://localhost:5000';
+
+// Show login modal
+function showLogin() {
+    document.getElementById('loginModal').style.display = 'block';
+}
+
+// Hide login modal
+function hideLogin() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+
+// Login function
+async function login() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    try {
+        const response = await fetch(`${API_URL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            alert(`Welcome ${data.user.name}!`);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            hideLogin();
+            updateUIForLoggedInUser(data.user);
+        } else {
+            alert(data.error || 'Login failed');
+        }
+    } catch (error) {
+        alert('Network error: ' + error.message);
+    }
+}
+
+// Register function
+async function register() {
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const name = document.getElementById('registerName').value;
+    
+    try {
+        const response = await fetch(`${API_URL}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password, name })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            alert(`Account created! Welcome ${data.user.name}`);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            hideLogin();
+            updateUIForLoggedInUser(data.user);
+        } else {
+            alert(data.error || 'Registration failed');
+        }
+    } catch (error) {
+        alert('Network error: ' + error.message);
+    }
+}
+
+// Update UI when user is logged in
+function updateUIForLoggedInUser(user) {
+    // Update navigation
+    const nav = document.querySelector('.nav-links');
+    if (nav) {
+        nav.innerHTML = `
+            <span style="color: #4F46E5; font-weight: bold;">Hi, ${user.name}</span>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="settings.html">Settings</a>
+            <a href="analytics.html">Analytics</a>
+            <button onclick="logout()" style="background:#EF4444; color:white; padding:8px 16px; border:none; border-radius:6px;">
+                Logout
+            </button>
+        `;
+    }
+}
+
+// Logout function
+function logout() {
+    fetch(`${API_URL}/logout`, { method: 'POST' })
+        .then(() => {
+            localStorage.removeItem('user');
+            location.reload();
+        });
+}
+
+// Check if user is logged in on page load
+window.addEventListener('DOMContentLoaded', function() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        updateUIForLoggedInUser(user);
+    }
+});
+</script>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | PennyWise</title>
+    <style>
+        /* COMPLETE CSS - NO EXTERNAL FILES NEEDED */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --secondary: #10B981;
+            --round-up: #F59E0B;
+            --background: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #1F2937;
+            --text-light: #6B7280;
+            --border: #E5E7EB;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .logo::before {
+            content: "⚙️";
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            color: var(--text-light);
+            font-size: 18px;
+        }
+        
+        /* Settings Cards */
+        .settings-card {
+            background: var(--background);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 2px solid var(--border);
+            transition: transform 0.3s;
+        }
+        
+        .settings-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .settings-card h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .settings-card h3::before {
+            font-size: 20px;
+        }
+        
+        /* Round-up Options */
+        .options-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .option-btn {
+            padding: 15px 25px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .option-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .option-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        /* Dropdown */
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            color: var(--text);
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Smart Rules */
+        .rule-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .rule-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .rule-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        .rule-content {
+            flex: 1;
+        }
+        
+        .rule-title {
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        
+        .rule-description {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Allocation Sliders */
+        .allocation-item {
+            margin-bottom: 25px;
+        }
+        
+        .allocation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .allocation-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            color: var(--text);
+        }
+        
+        .allocation-icon {
+            font-size: 20px;
+        }
+        
+        .allocation-percentage {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
+        .slider-container {
+            position: relative;
+            height: 30px;
+        }
+        
+        .slider-track {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .slider-fill {
+            position: absolute;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .slider-thumb {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: grab;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .slider-thumb:active {
+            cursor: grabbing;
+        }
+        
+        /* Save Button */
+        .save-container {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border);
+        }
+        
+        .save-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .save-btn:hover {
+            background: #0da271;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .save-btn::before {
+            content: "💾";
+            font-size: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .options-grid {
+                justify-content: center;
+            }
+            
+            .option-btn {
+                padding: 12px 20px;
+                min-width: 70px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 28px;
+            }
+            
+            .settings-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">PennyWise Settings</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="analytics.html">Analytics</a>
+                <a href="settings.html" class="active">Settings</a>
+            </div>
+        </nav>
+
+        <div class="page-header">
+            <h1>Your Investment Rules ⚙️</h1>
+            <p>Customize how PennyWise rounds up and invests your spare change</p>
+        </div>
+
+        <!-- Round-up Level -->
+        <div class="settings-card">
+            <h3>🎯 Round up to nearest:</h3>
+            <div class="options-grid">
+                <button class="option-btn" onclick="setRoundUpLevel(5)">₹5</button>
+                <button class="option-btn active" onclick="setRoundUpLevel(10)">₹10</button>
+                <button class="option-btn" onclick="setRoundUpLevel(20)">₹20</button>
+                <button class="option-btn" onclick="setRoundUpLevel(50)">₹50</button>
+            </div>
+            <div style="margin-top: 15px; color: var(--text-light); font-size: 14px;">
+                <i>Example: ₹347 transaction with ₹10 rounding = ₹350 (₹3 spare change)</i>
+            </div>
+        </div>
+
+        <!-- Auto-invest Threshold -->
+        <div class="settings-card">
+            <h3>💰 Invest when spare change reaches:</h3>
+            <select id="thresholdSelect" onchange="updateThreshold()">
+                <option value="100">₹100</option>
+                <option value="200" selected>₹200</option>
+                <option value="500">₹500</option>
+                <option value="1000">₹1,000</option>
+            </select>
+            <div style="margin-top: 15px; color: var(--text-light); font-size: 14px;">
+                <i>When your spare change reaches this amount, it will be automatically invested</i>
+            </div>
+        </div>
+
+        <!-- Smart Rules -->
+        <div class="settings-card">
+            <h3>🤖 Smart Rules</h3>
+            
+            <div class="rule-item">
+                <input type="checkbox" class="rule-checkbox" id="rule1" checked>
+                <div class="rule-content">
+                    <div class="rule-title">If spare change > ₹25, invest entirely in Gold</div>
+                    <div class="rule-description">Large round-ups go directly to gold investments</div>
+                </div>
+            </div>
+            
+            <div class="rule-item">
+                <input type="checkbox" class="rule-checkbox" id="rule2">
+                <div class="rule-content">
+                    <div class="rule-title">Skip round-up if transaction > ₹5,000</div>
+                    <div class="rule-description">Don't round up large purchases</div>
+                </div>
+            </div>
+            
+            <div class="rule-item">
+                <input type="checkbox" class="rule-checkbox" id="rule3">
+                <div class="rule-content">
+                    <div class="rule-title">Double round-up on weekends</div>
+                    <div class="rule-description">Round up 2x on Saturday & Sunday</div>
+                </div>
+            </div>
+            
+            <div class="rule-item">
+                <input type="checkbox" class="rule-checkbox" id="rule4" checked>
+                <div class="rule-content">
+                    <div class="rule-title">Protect my budget</div>
+                    <div class="rule-description">Skip round-up if daily total exceeds ₹50</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Allocation -->
+        <div class="settings-card">
+            <h3>📊 Investment Allocation</h3>
+            <p style="color: var(--text-light); margin-bottom: 25px;">Drag sliders to adjust your portfolio distribution</p>
+            
+            <!-- Gold -->
+            <div class="allocation-item">
+                <div class="allocation-header">
+                    <div class="allocation-name">
+                        <span class="allocation-icon">🥇</span>
+                        <span>Gold</span>
+                    </div>
+                    <div class="allocation-percentage" id="goldPercent">40%</div>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <div class="slider-fill" id="goldFill" style="width: 40%;"></div>
+                    <div class="slider-thumb" id="goldThumb" style="left: 40%;" 
+                         onmousedown="startDrag('gold')"></div>
+                </div>
+            </div>
+            
+            <!-- ETF -->
+            <div class="allocation-item">
+                <div class="allocation-header">
+                    <div class="allocation-name">
+                        <span class="allocation-icon">📈</span>
+                        <span>Nifty ETF</span>
+                    </div>
+                    <div class="allocation-percentage" id="etfPercent">30%</div>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <div class="slider-fill" id="etfFill" style="width: 30%;"></div>
+                    <div class="slider-thumb" id="etfThumb" style="left: 30%;" 
+                         onmousedown="startDrag('etf')"></div>
+                </div>
+            </div>
+            
+            <!-- Index Fund -->
+            <div class="allocation-item">
+                <div class="allocation-header">
+                    <div class="allocation-name">
+                        <span class="allocation-icon">🏦</span>
+                        <span>Index Fund</span>
+                    </div>
+                    <div class="allocation-percentage" id="indexPercent">30%</div>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-track"></div>
+                    <div class="slider-fill" id="indexFill" style="width: 30%;"></div>
+                    <div class="slider-thumb" id="indexThumb" style="left: 30%;" 
+                         onmousedown="startDrag('index')"></div>
+                </div>
+            </div>
+            
+            <!-- Total Display -->
+            <div style="margin-top: 30px; padding: 20px; background: var(--primary); color: white; border-radius: 10px; text-align: center;">
+                <div style="font-size: 14px; opacity: 0.9;">Total Allocation</div>
+                <div style="font-size: 32px; font-weight: bold;" id="totalPercent">100%</div>
+                <div style="font-size: 12px; opacity: 0.9;">All investments must total 100%</div>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="save-container">
+            <button class="save-btn" onclick="saveSettings()">
+                Save Settings
+            </button>
+            <div style="margin-top: 15px; color: var(--text-light); font-size: 14px;">
+                Your settings will apply to all future transactions
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current settings
+        let roundUpLevel = 10;
+        let threshold = 200;
+        let allocations = {
+            gold: 40,
+            etf: 30,
+            index: 30
+        };
+        
+        // Set round-up level
+        function setRoundUpLevel(level) {
+            roundUpLevel = level;
+            
+            // Update button states
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            showNotification(`Round-up level set to ₹${level}`);
+        }
+        
+        // Update threshold
+        function updateThreshold() {
+            threshold = parseInt(document.getElementById('thresholdSelect').value);
+            showNotification(`Auto-invest threshold set to ₹${threshold}`);
+        }
+        
+        // Slider dragging functionality
+        let dragging = null;
+        let startX = 0;
+        let startWidth = 0;
+        
+        function startDrag(type) {
+            dragging = type;
+            document.addEventListener('mousemove', handleDrag);
+            document.addEventListener('mouseup', stopDrag);
+        }
+        
+        function handleDrag(e) {
+            if (!dragging) return;
+            
+            const container = document.querySelector('.slider-container');
+            const rect = container.getBoundingClientRect();
+            let percent = ((e.clientX - rect.left) / rect.width) * 100;
+            
+            // Limit between 0 and 100
+            percent = Math.max(0, Math.min(100, percent));
+            
+            // Update the dragged slider
+            updateSlider(dragging, percent);
+            
+            // Adjust other sliders to maintain 100% total
+            adjustOtherSliders(dragging);
+        }
+        
+        function stopDrag() {
+            dragging = null;
+            document.removeEventListener('mousemove', handleDrag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+        
+        function updateSlider(type, percent) {
+            percent = Math.round(percent);
+            
+            // Update allocation
+            allocations[type] = percent;
+            
+            // Update UI
+            document.getElementById(`${type}Percent`).textContent = `${percent}%`;
+            document.getElementById(`${type}Fill`).style.width = `${percent}%`;
+            document.getElementById(`${type}Thumb`).style.left = `${percent}%`;
+            
+            // Update total
+            updateTotal();
+        }
+        
+        function adjustOtherSliders(changedType) {
+            const total = Object.values(allocations).reduce((a, b) => a + b, 0);
+            
+            if (total !== 100) {
+                const difference = 100 - total;
+                const otherTypes = Object.keys(allocations).filter(t => t !== changedType);
+                
+                // Distribute difference proportionally among other sliders
+                const otherTotal = otherTypes.reduce((sum, t) => sum + allocations[t], 0);
+                
+                otherTypes.forEach(type => {
+                    const share = allocations[type] / otherTotal;
+                    const adjustment = Math.round(difference * share);
+                    const newValue = Math.max(0, Math.min(100, allocations[type] + adjustment));
+                    
+                    allocations[type] = newValue;
+                    
+                    // Update UI
+                    document.getElementById(`${type}Percent`).textContent = `${newValue}%`;
+                    document.getElementById(`${type}Fill`).style.width = `${newValue}%`;
+                    document.getElementById(`${type}Thumb`).style.left = `${newValue}%`;
+                });
+                
+                // Final adjustment to ensure exactly 100%
+                const finalTotal = Object.values(allocations).reduce((a, b) => a + b, 0);
+                if (finalTotal !== 100) {
+                    const lastType = otherTypes[otherTypes.length - 1];
+                    allocations[lastType] += (100 - finalTotal);
+                    const lastValue = allocations[lastType];
+                    
+                    document.getElementById(`${lastType}Percent`).textContent = `${lastValue}%`;
+                    document.getElementById(`${lastType}Fill`).style.width = `${lastValue}%`;
+                    document.getElementById(`${lastType}Thumb`).style.left = `${lastValue}%`;
+                }
+            }
+            
+            updateTotal();
+        }
+        
+        function updateTotal() {
+            const total = Object.values(allocations).reduce((a, b) => a + b, 0);
+            document.getElementById('totalPercent').textContent = `${total}%`;
+            
+            // Update color based on total
+            const totalElement = document.getElementById('totalPercent');
+            if (total === 100) {
+                totalElement.style.color = 'white';
+                totalElement.parentElement.style.background = 'var(--primary)';
+            } else {
+                totalElement.style.color = '#EF4444';
+                totalElement.parentElement.style.background = '#FEE2E2';
+            }
+        }
+        
+        // Save settings
+        function saveSettings() {
+            // Get smart rules
+            const rule1 = document.getElementById('rule1').checked;
+            const rule2 = document.getElementById('rule2').checked;
+            const rule3 = document.getElementById('rule3').checked;
+            const rule4 = document.getElementById('rule4').checked;
+            
+            // Prepare settings object
+            const settings = {
+                roundUpLevel,
+                threshold,
+                allocations: { ...allocations },
+                smartRules: { rule1, rule2, rule3, rule4 },
+                savedAt: new Date().toLocaleString()
+            };
+            
+            // Show success message
+            showNotification('✅ Settings saved successfully!', 'success');
+            
+            // Log to console (for demo)
+            console.log('Settings saved:', settings);
+            
+            // In real app, you would save to localStorage or backend
+            localStorage.setItem('pennywiseSettings', JSON.stringify(settings));
+            
+            // Show preview of changes
+            setTimeout(() => {
+                alert(`Settings Applied Successfully!\n\n📊 New Configuration:\n• Round-up: ₹${roundUpLevel}\n• Auto-invest at: ₹${threshold}\n• Portfolio: Gold ${allocations.gold}%, ETF ${allocations.etf}%, Index ${allocations.index}%\n\nThese will apply to all future transactions.`);
+            }, 500);
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 25px;
+                    background: ${type === 'success' ? '#10B981' : '#4F46E5'};
+                    color: white;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                ">
+                    <span style="font-size: 20px;">${type === 'success' ? '✅' : 'ℹ️'}</span>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize button click handlers
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Initialize checkbox handlers
+        document.querySelectorAll('.rule-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const ruleName = this.id === 'rule1' ? 'Gold Priority' :
+                               this.id === 'rule2' ? 'Skip Large Purchases' :
+                               this.id === 'rule3' ? 'Weekend Bonus' : 'Budget Protection';
+                
+                showNotification(`${this.checked ? 'Enabled' : 'Disabled'}: ${ruleName}`);
+            });
+        });
+        
+        // Load saved settings if available
+        window.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('pennywiseSettings');
+            if (saved) {
+                try {
+                    const settings = JSON.parse(saved);
+                    roundUpLevel = settings.roundUpLevel || 10;
+                    threshold = settings.threshold || 200;
+                    allocations = settings.allocations || { gold: 40, etf: 30, index: 30 };
+                    
+                    // Update UI with saved values
+                    document.querySelectorAll('.option-btn').forEach(btn => {
+                        if (parseInt(btn.textContent.replace('₹', '')) === roundUpLevel) {
+                            btn.classList.add('active');
+                        }
+                    });
+                    
+                    document.getElementById('thresholdSelect').value = threshold;
+                    
+                    // Update sliders
+                    updateSlider('gold', allocations.gold);
+                    updateSlider('etf', allocations.etf);
+                    updateSlider('index', allocations.index);
+                    
+                    showNotification('Loaded your saved settings', 'success');
+                } catch (e) {
+                    console.log('No saved settings found');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
