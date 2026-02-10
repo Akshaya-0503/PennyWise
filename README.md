@@ -338,7 +338,6 @@ Supported by the open-source community
 
 Special thanks to our pilot users for valuable feedback
 
-📞 Contact & Support
 Website:https://pennywise-jld9.onrender.com
 
 Email: akshayam16032005@gmail.com
