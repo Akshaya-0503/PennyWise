@@ -6,9 +6,6 @@ PennyWise addresses a critical financial gap: 73% of young professionals delay i
 
 Market Opportunity: ₹4.2+ trillion among India's 250 million digital payment users, currently underserved by traditional investment platforms.
 
-Live Demo
-🚀 Live Application: https://pennywise-analytics.onrender.com
-📊 Demo Credentials: demo@pennywise.com / demo123
 
 🎯 Key Features
 🏦 Automated Micro-Investing
